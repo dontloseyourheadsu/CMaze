@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-static char labyrinth[10][20];
+static char labyrinth[31][31];
 static int labyrinthHeight;
 static int labyrinthWidth;
 static char goal = '#';
@@ -12,6 +12,7 @@ static char unvisitedPath = '=';
 static char path = ' ';
 static char solutionPath = '*';
 static char possibleSolutionPath = '+';
+static char fog = '\176';
 
 void printNewLines(int amountOfLines) {
     for (int i = 0; i < amountOfLines; i++) {
@@ -26,8 +27,6 @@ int randomChoice(int base, int limit) {
     return randomChoice;
 }
 
-int isEven(int number) { return number % 2; }
-
 void printLabyrinth() {
 
     for (int i = 0; i < labyrinthHeight; i++) {
@@ -38,9 +37,40 @@ void printLabyrinth() {
     }
 }
 
+void printLabyrinthWithFog(int playerRow, int playerColumn) {
+
+    for(int i = 0; i < labyrinthHeight; i++) {
+        for(int j = 0; j < labyrinthWidth; j++) {
+            //Print surrounding area of the player by 1, else is fog
+            if(((i >=  (playerRow-1)) && (i <= playerRow+1))
+                && ((j >= (playerColumn-1)) && (j <= (playerColumn+1)))) {
+                printf("%c ", labyrinth[i][j]);
+            } else {
+                printf("%c ", fog);
+            }
+        }
+        printf("\n");
+    }
+}
+
+int isEven(int number) { return number % 2; }
+
+void createLabyrinth() {
+
+    for (int i = 0; i < labyrinthHeight; i++) {
+        for (int j = 0; j < labyrinthWidth; j++) {
+            if (isEven(i) && isEven(j)) {
+                labyrinth[i][j] = unvisitedPath;
+            } else {
+                labyrinth[i][j] = wall;
+            }
+        }
+    }
+}
+
 void chooseGoalPosition() {
 
-    labyrinth[labyrinthHeight - 1][labyrinthWidth - 1] = goal;
+    labyrinth[labyrinthHeight - 2][labyrinthWidth - 2] = goal;
 }
 
 void choosePlayerPosition() {
@@ -129,37 +159,30 @@ int main() {
     int difficultyLevel;
     printf("Choose difficulty level from 1 to 3: ");
     //print the possible difficulty levels
-    printf("\n1 - Easy (6x6)\n2 - Medium (10x10)\n3 - Hard (10x20)\nDefault (10x10)\n");
+    printf("\n1 - Easy (9x9)\n2 - Medium (19x19)\n3 - Hard (29x29)\nOther - Fog (9x9)\n");
     scanf("%d", &difficultyLevel);
-
+    int useFog = 0;
     switch (difficultyLevel) {
         case 1:
-            labyrinthHeight = 6;
-            labyrinthWidth = 6;
+            labyrinthHeight = 11;
+            labyrinthWidth =11;
             break;
         case 2:
-            labyrinthHeight = 10;
-            labyrinthWidth = 10;
+            labyrinthHeight = 21;
+            labyrinthWidth = 21;
             break;
         case 3:
-            labyrinthHeight = 10;
-            labyrinthWidth = 20;
+            labyrinthHeight = 31;
+            labyrinthWidth = 31;
             break;
         default:
-            labyrinthHeight = 10;
-            labyrinthWidth = 10;
+            labyrinthHeight = 11;
+            labyrinthWidth = 11;
+            useFog = 1;
             break;
     }
 
-    for (int i = 0; i < labyrinthHeight; i++) {
-        for (int j = 0; j < labyrinthWidth; j++) {
-            if (isEven(i) && isEven(j)) {
-                labyrinth[i][j] = unvisitedPath;
-            } else {
-                labyrinth[i][j] = wall;
-            }
-        }
-    }
+    createLabyrinth();
 
     //set seed for random
     static time_t t;
@@ -171,7 +194,11 @@ int main() {
 
     printf("Here is your maze:\n\n");
 
-    printLabyrinth();
+    if(useFog) {
+        printLabyrinthWithFog(1, 1);
+    } else {
+        printLabyrinth();
+    }
 
     printNewLines(2);
 
@@ -186,8 +213,8 @@ int main() {
 
     printNewLines(3);
 
-    int goalRow = labyrinthHeight - 1;
-    int goalColumn = labyrinthWidth - 1;
+    int goalRow = labyrinthHeight - 2;
+    int goalColumn = labyrinthWidth - 2;
     int playerRow = 1;
     int playerColumn = 1;
 
@@ -201,7 +228,11 @@ int main() {
 
         printf("\n");
 
-        printLabyrinth();
+        if(useFog) {
+            printLabyrinthWithFog(playerRow, playerColumn);
+        } else {
+            printLabyrinth();
+        }
 
         printf("\n");
 
