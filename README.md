@@ -6,7 +6,7 @@ Terminal maze game written in C.
 
 ## Objective
 
-Clear the maze by taking the player to the goal without going through the walls.
+Clear the maze by taking the player to the goal without going through the walls. You can collect coins to get a better score.
 
 ## Symbols
 
@@ -16,6 +16,7 @@ Clear the maze by taking the player to the goal without going through the walls.
 - Path - ‘ ‘
 - Path to solution - ‘*’
 - Fog - ‘░’
+- Coins - ‘$’
 
 ## Gameplay
 
@@ -35,4 +36,6 @@ The game has 4 types of levels:
 - Hard (29x29 maze)
 - Fog (9x9 maze). There is fog and you can’t see beyond one space.
 
-In case you aren’t able to complete the game, you can access the solution generator by entering ‘g’. This will show you the path from any point you are at and you can always ask the path again.
+Collect coins to improve your score.
+
+In case you aren’t able to complete the game, you can access the solution generator by entering ‘g’. This will show you the path from any point you are at and you can always ask the path again. But be aware that you won't get all the points if you use this aid.
