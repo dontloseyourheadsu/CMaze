@@ -6,7 +6,7 @@ Terminal maze game written in C.
 
 ## Objective
 
-Clear the maze by taking the player to the goal without going through the walls. You can collect coins to get a better score.
+Clear the maze by taking the player to the goal without going through the walls. You can collect coins to get a better score. Try to get the max score!
 
 ## Symbols
 
