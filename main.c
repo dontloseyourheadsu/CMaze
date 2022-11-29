@@ -367,5 +367,29 @@ int main() {
     printf("You won!\n");
     printf("Your score is: %d\n", score);
 
+    FILE *scoresDataBase;
+
+    scoresDataBase = fopen("scores.txt", "r+");
+
+    if (scoresDataBase == NULL) {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    int maxScore;
+    fscanf(scoresDataBase, "%d", &maxScore);
+    fclose(scoresDataBase);
+
+
+    if (score > maxScore) {
+        scoresDataBase = fopen("scores.txt", "w");
+        printf("You got the new high score!\n");
+        fprintf(scoresDataBase, "%d", score);
+        fclose(scoresDataBase);
+        maxScore = score;
+    }
+
+    printf("The high score is: %d\n", maxScore);
+
     return 0;
 }
