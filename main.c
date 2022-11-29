@@ -5,6 +5,7 @@
 static char labyrinth[31][31];
 static int labyrinthHeight;
 static int labyrinthWidth;
+static int score = 0;
 static char goal = '#';
 static char player = 'o';
 static char wall = '-';
@@ -13,6 +14,7 @@ static char path = ' ';
 static char solutionPath = '*';
 static char possibleSolutionPath = '+';
 static char fog = '\176';
+static char coin = '$';
 
 void printNewLines(int amountOfLines) {
     for (int i = 0; i < amountOfLines; i++) {
@@ -39,11 +41,11 @@ void printLabyrinth() {
 
 void printLabyrinthWithFog(int playerRow, int playerColumn) {
 
-    for(int i = 0; i < labyrinthHeight; i++) {
-        for(int j = 0; j < labyrinthWidth; j++) {
+    for (int i = 0; i < labyrinthHeight; i++) {
+        for (int j = 0; j < labyrinthWidth; j++) {
             //Print surrounding area of the player by 1, else is fog
-            if(((i >=  (playerRow-1)) && (i <= playerRow+1))
-                && ((j >= (playerColumn-1)) && (j <= (playerColumn+1)))) {
+            if (((i >= (playerRow - 1)) && (i <= playerRow + 1))
+                && ((j >= (playerColumn - 1)) && (j <= (playerColumn + 1)))) {
                 printf("%c ", labyrinth[i][j]);
             } else {
                 printf("%c ", fog);
@@ -143,14 +145,28 @@ int solveMaze(int row, int column) {
 
     labyrinth[row][column] = possibleSolutionPath;
 
-    if(solveMaze(row - 1, column) || solveMaze(row, column + 1)
-       || solveMaze(row + 1, column) || solveMaze(row, column - 1)) {
+    if (solveMaze(row - 1, column) || solveMaze(row, column + 1)
+        || solveMaze(row + 1, column) || solveMaze(row, column - 1)) {
 
         labyrinth[row][column] = solutionPath;
         return 1;
     }
 
     return 0;
+}
+
+void chooseCoinsPosition(int amountOfCoins) {
+
+    for (int i = 0; i < amountOfCoins; i++) {
+        int row, column;
+
+        do {
+            row = randomChoice(1, labyrinthHeight - 1);
+            column = randomChoice(1, labyrinthWidth - 1);
+        } while (labyrinth[row][column] != path);
+
+        labyrinth[row][column] = coin;
+    }
 }
 
 int main() {
@@ -165,7 +181,7 @@ int main() {
     switch (difficultyLevel) {
         case 1:
             labyrinthHeight = 11;
-            labyrinthWidth =11;
+            labyrinthWidth = 11;
             break;
         case 2:
             labyrinthHeight = 21;
@@ -192,9 +208,24 @@ int main() {
     chooseGoalPosition();
     choosePlayerPosition();
 
+    switch (difficultyLevel) {
+        case 1:
+            chooseCoinsPosition(5);
+            break;
+        case 2:
+            chooseCoinsPosition(10);
+            break;
+        case 3:
+            chooseCoinsPosition(15);
+            break;
+        default:
+            chooseCoinsPosition(5);
+            break;
+    }
+
     printf("Here is your maze:\n\n");
 
-    if(useFog) {
+    if (useFog) {
         printLabyrinthWithFog(1, 1);
     } else {
         printLabyrinth();
@@ -218,6 +249,9 @@ int main() {
     int playerRow = 1;
     int playerColumn = 1;
 
+    //bool to know if player asked the maze to be solved
+    int playerGotHelp = 0;
+
     do {
 
         printf("Enter w to move up\n");
@@ -228,7 +262,7 @@ int main() {
 
         printf("\n");
 
-        if(useFog) {
+        if (useFog) {
             printLabyrinthWithFog(playerRow, playerColumn);
         } else {
             printLabyrinth();
@@ -282,6 +316,7 @@ int main() {
                 labyrinth[playerRow][playerColumn] = player;
 
                 printf("Follow this path to get to the goal: %c\n", solutionPath);
+                playerGotHelp = 1;
                 break;
             default:
                 printf("Invalid input\n");
@@ -292,10 +327,17 @@ int main() {
         //if player will hit a wall or go out of bounds
         if (labyrinth[playerRow + playerRowThrust][playerColumn + playerColumnThrust] != path
             && labyrinth[playerRow + playerRowThrust][playerColumn + playerColumnThrust] != goal
-            && labyrinth[playerRow + playerRowThrust][playerColumn + playerColumnThrust] != solutionPath) {
+            && labyrinth[playerRow + playerRowThrust][playerColumn + playerColumnThrust] != solutionPath
+            && labyrinth[playerRow + playerRowThrust][playerColumn + playerColumnThrust] != coin) {
 
             printf("You can not move here, it is a wall or out of bounds.\n");
             continue;
+        }
+
+        //add to score if player got a coin
+        if (labyrinth[playerRow + playerRowThrust][playerColumn + playerColumnThrust] == coin) {
+            printf("You got a coin!\n");
+            score += 50;
         }
 
         //current player position becomes a path
@@ -312,10 +354,18 @@ int main() {
 
     } while (labyrinth[goalRow][goalColumn] != player);
 
+
+    if (playerGotHelp) {
+        score += 100;
+    } else {
+        score += 200;
+    }
+
     labyrinth[goalRow][goalColumn] = player;
     printLabyrinth();
     printf("Congrats!\n");
     printf("You won!\n");
+    printf("Your score is: %d\n", score);
 
     return 0;
 }
