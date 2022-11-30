@@ -14,7 +14,7 @@ Clear the maze by taking the player to the goal without going through the walls.
 - Player - ‘o’
 - Wall - ‘-’
 - Path - ‘ ‘
-- Path to solution - ‘*’
+- Path to solution - ‘\*’
 - Fog - ‘░’
 - Coins - ‘$’
 
@@ -32,7 +32,7 @@ You can input several inputs during a turn, but that doesn’t mean you will be 
 The game has 4 types of levels:
 
 - Easy (9x9 maze)
-- Medium (19x19 maze)
+- Medium (10x20 maze)
 - Hard (29x29 maze)
 - Fog (9x9 maze). There is fog and you can’t see beyond one space.
 
