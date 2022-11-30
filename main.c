@@ -293,10 +293,10 @@ int main() {
                 playerColumnThrust = 1;
                 break;
             case 'g':
-                //delete all the possible solution paths
+                //delete all the solution paths and coins
                 for (int i = 0; i < labyrinthHeight; i++) {
                     for (int j = 0; j < labyrinthWidth; j++) {
-                        if (labyrinth[i][j] == solutionPath) {
+                        if (labyrinth[i][j] == solutionPath || labyrinth[i][j] == coin) {
                             labyrinth[i][j] = path;
                         }
                     }
