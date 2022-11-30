@@ -175,7 +175,7 @@ int main() {
     int difficultyLevel;
     printf("Choose difficulty level from 1 to 3: ");
     //print the possible difficulty levels
-    printf("\n1 - Easy (9x9)\n2 - Medium (19x19)\n3 - Hard (29x29)\nOther - Fog (9x9)\n");
+    printf("\n1 - Easy (9x9)\n2 - Medium (10x20)\n3 - Hard (29x29)\nOther - Fog (9x9)\n");
     scanf("%d", &difficultyLevel);
     int useFog = 0;
     switch (difficultyLevel) {
@@ -184,7 +184,7 @@ int main() {
             labyrinthWidth = 11;
             break;
         case 2:
-            labyrinthHeight = 21;
+            labyrinthHeight = 11;
             labyrinthWidth = 21;
             break;
         case 3:
