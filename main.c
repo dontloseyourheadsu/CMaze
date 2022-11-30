@@ -241,6 +241,7 @@ int main() {
     printf("These are walls: %c\n", wall);
     printf("These are paths: %c\n", path);
     printf("This is the goal: %c\n", goal);
+    printf("These are coins: %c\n", coin);
 
     printNewLines(3);
 
