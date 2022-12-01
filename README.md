@@ -40,3 +40,5 @@ The game has 4 types of levels:
 Collect coins to improve your score.
 
 In case you aren’t able to complete the game, you can access the solution generator by entering ‘g’. This will show you the path from any point you are at and you can always ask the path again. But be aware that you won't get all the points if you use this aid.
+
+You can play at the following link: https://replit.com/@JesusAlvarez16/CMaze#main.c
