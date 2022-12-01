@@ -169,27 +169,55 @@ void chooseCoinsPosition(int amountOfCoins) {
     }
 }
 
+int validateLabyrinthSize(int width, int height) {
+    //too small
+    if(width < 5 || height < 5) {
+        return 0;
+    }
+
+    //should be odd
+    if(width % 2 == 0 || height % 2 == 0) {
+        return 0;
+    }
+
+    //cant be bigger than 31
+    if(width > 31 || height > 31) {
+        return 0;
+    }
+
+    return 1;
+}
+
 int main() {
 
     //ask player to choose difficulty level from easy, medium and hard
     int difficultyLevel;
     printf("Choose difficulty level from 1 to 3: ");
     //print the possible difficulty levels
-    printf("\n1 - Easy (9x9)\n2 - Medium (10x20)\n3 - Hard (29x29)\nOther - Fog (9x9)\n");
+    printf("\n1 - Easy (9x9)\n2 - Medium (19x19)\n3 - Hard (29x29)\n4 - Choose Size (?x?)\nOther - Fog (9x9)\n");
     scanf("%d", &difficultyLevel);
     int useFog = 0;
+
     switch (difficultyLevel) {
         case 1:
             labyrinthHeight = 11;
             labyrinthWidth = 11;
             break;
         case 2:
-            labyrinthHeight = 11;
+            labyrinthHeight = 21;
             labyrinthWidth = 21;
             break;
         case 3:
             labyrinthHeight = 31;
             labyrinthWidth = 31;
+            break;
+        case 4:
+            printf("Choose labyrinth size (odd number between 5 and 31): ");
+            scanf("%d %d", &labyrinthWidth, &labyrinthHeight);
+            if(!validateLabyrinthSize(labyrinthWidth, labyrinthHeight)) {
+                printf("Invalid size!\n");
+                return 0;
+            }
             break;
         default:
             labyrinthHeight = 11;

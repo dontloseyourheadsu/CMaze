@@ -32,8 +32,9 @@ You can input several inputs during a turn, but that doesn’t mean you will be 
 The game has 4 types of levels:
 
 - Easy (9x9 maze)
-- Medium (10x20 maze)
+- Medium (19x19 maze)
 - Hard (29x29 maze)
+- Custom (You can choose the size of the maze)
 - Fog (9x9 maze). There is fog and you can’t see beyond one space.
 
 Collect coins to improve your score.
